@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
-import * as localStore from "../store/localStore";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useSelector, useDispatch } from "react-redux";
+
+import * as localStore from "../store/localStore";
 import { sliceAction } from "../store";
 
 const ModalComp = ({ value }) => {
@@ -35,7 +36,8 @@ const ModalComp = ({ value }) => {
         localStore.set(id, { tsvInput, jsonOutput: result, error });
       }
     }
-    !copyState && dispatch(sliceAction.setURL("http://localhost:3000/" + id));
+    let homeURL = window.location.protocol + "//" + window.location.host + "/";
+    !copyState && dispatch(sliceAction.setURL(homeURL + id));
   }, []);
 
   return (
@@ -74,7 +76,7 @@ const ModalComp = ({ value }) => {
             </div>
           </form>
         </Modal.Body>
-        {result != "" && (
+        {result !== "" && (
           <Modal.Footer>
             <a id="url" href={url} className="anchor">
               {url}

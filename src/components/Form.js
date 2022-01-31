@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import ModalComp from "./ModalComp";
 import { useNavigate, useParams } from "react-router-dom";
-import * as localStore from "../store/localStore";
 import { useDispatch, useSelector } from "react-redux";
+
+import ModalComp from "./ModalComp";
+import * as localStore from "../store/localStore";
 import { sliceAction } from "../store";
+import { API_URL, endPoint } from "../constants/constants";
 
 const Form = () => {
   const tsvData = React.createRef();
@@ -19,7 +21,9 @@ const Form = () => {
     const txtInput = tsvData.current.value;
     dispatch(sliceAction.setInput(txtInput));
     axios
-      .post("http://localhost:8080/handle", { data: txtInput })
+      .post(API_URL + endPoint, {
+        data: txtInput,
+      })
       .then((res) => {
         const { status, value: output } = res.data;
         let jsonOutput = "",
