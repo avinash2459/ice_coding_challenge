@@ -13,10 +13,18 @@ code {
 }
 
 .form {
-  margin: 100px 150px;
+  margin-top: 20px;
   padding: 50px;
   width: 900px;
   border: 1px solid black;
+}
+
+.divForm {
+  margin: 80px 150px;
+}
+
+h2 {
+  color: crimson;
 }
 
 .form-element {

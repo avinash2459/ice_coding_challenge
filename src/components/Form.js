@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,12 +13,18 @@ const Form = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { value } = useParams();
+  const [validation, setValidation] = useState("none");
 
   const { showModal: show, param } = useSelector((state) => state);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const txtInput = tsvData.current.value;
+    if (!txtInput) {
+      setValidation("block");
+      return;
+    }
+    setValidation("none");
     dispatch(sliceAction.setInput(txtInput));
     axios
       .post(API_URL + endPoint, {
@@ -55,6 +61,9 @@ const Form = () => {
 
   const handleInput = (e) => {
     e.preventDefault();
+    if (tsvData.current.value) {
+      setValidation("none");
+    }
   };
 
   useEffect(() => {
@@ -83,7 +92,8 @@ const Form = () => {
   }, []);
 
   return (
-    <div>
+    <div className="divForm">
+      <h2>TSV to JSON Convertor</h2>
       <form className="form">
         <div className="form-element">
           <label>TSV content</label>
@@ -96,6 +106,7 @@ const Form = () => {
             readOnly={param}
           ></textarea>
         </div>
+        <p style={{ color: "red", display: validation }}>Input is required!!</p>
         <div className="form-element">
           <button
             className={
